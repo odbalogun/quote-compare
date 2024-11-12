@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "corsheaders",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True # Read up on how to secure this properly
 CORS_ALLOW_CREDENTIALS = True
+
+AUTH_USER_MODEL = 'core.User'
