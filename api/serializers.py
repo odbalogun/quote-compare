@@ -21,3 +21,8 @@ class UserAllFieldsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+class EditUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["first_name", "middle_name", "last_name", "date_of_birth", "nationality"]
