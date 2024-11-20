@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from core.permissions import IsOwnProfile
 from core.models import User
 from rest_framework import generics
 from .serializers import UserSerializer, UserAllFieldsSerializer, EditUserProfileSerializer
@@ -13,7 +13,7 @@ class CreateUserView(generics.CreateAPIView):
 class EditUserProfileView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = EditUserProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnProfile]
 
 class FetchAllUsersView(generics.ListAPIView):
     queryset = User.objects.all()

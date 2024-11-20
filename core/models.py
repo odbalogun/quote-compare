@@ -7,9 +7,9 @@ from .base_models import StickyDeleteModel
 class User(StickyDeleteModel, AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    middle_name = models.CharField(_("middle name"), max_length=150, null=True)
-    date_of_birth = models.DateField(_("date of birth"), null=True)
-    nationality = models.CharField(_("nationality"), max_length=150, null=True)
+    middle_name = models.CharField(_("middle name"), max_length=150, null=True, blank=True)
+    date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
+    nationality = models.CharField(_("nationality"), max_length=150, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

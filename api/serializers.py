@@ -25,4 +25,4 @@ class UserAllFieldsSerializer(serializers.ModelSerializer):
 class EditUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "middle_name", "last_name", "date_of_birth", "nationality"]
+        fields = ["id", "first_name", "middle_name", "last_name", "date_of_birth", "nationality"]
