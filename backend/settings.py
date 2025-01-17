@@ -62,8 +62,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "core",
+    "insurance",
     "travel",
-    "policies"
 ]
 
 MIDDLEWARE = [
