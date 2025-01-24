@@ -5,6 +5,25 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class InsuranceModel(BaseModel):
+    """
+    InsuranceModel is an abstract base model that represents the insurance details of a user.
+
+    Attributes:
+        title (CharField): The title of the insurance holder (e.g., Mr., Mrs., Dr.).
+        first_name (CharField): The first name of the insurance holder.
+        last_name (CharField): The last name of the insurance holder.
+        email (EmailField): The email address of the insurance holder.
+        phone_number (CharField): The phone number of the insurance holder.
+        gender (CharField): The gender of the insurance holder.
+        date_of_birth (DateField): The date of birth of the insurance holder.
+        address (TextField): The address of the insurance holder.
+        city (CharField): The city of the insurance holder.
+        state (CharField): The state of the insurance holder.
+        owner (ForeignKey): A foreign key reference to the User model, representing the owner of the insurance.
+        
+    Meta:
+        abstract (bool): Indicates that this model is abstract and should not be used to create any database table.
+    """
     title = models.CharField(_("title"), max_length=100, null=False, blank=False)
     first_name = models.CharField(_("first name"), max_length=150, null=False, blank=False)
     last_name = models.CharField(_("last name"), max_length=150, null=False, blank=False)
@@ -22,6 +41,16 @@ class InsuranceModel(BaseModel):
     
 
 class InsuranceProvider(models.Model):
+    """
+    Model representing an insurance provider.
+
+    Attributes:
+        name (str): The name of the insurance provider.
+        interface (str): The interface used by the insurance provider.
+        provides_health (bool): Indicates if the provider offers health insurance.
+        provides_auto (bool): Indicates if the provider offers auto insurance.
+        provides_travel (bool): Indicates if the provider offers travel insurance.
+    """
     name = models.CharField(_("name"), max_length=255, null=False, blank=False)
     interface = models.CharField(_("interface"), max_length=255, null=False, blank=False)
     provides_health = models.BooleanField(_("provides health insurance"), default=False)
