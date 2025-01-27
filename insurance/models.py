@@ -56,6 +56,7 @@ class InsuranceProvider(models.Model):
     provides_health = models.BooleanField(_("provides health insurance"), default=False)
     provides_auto = models.BooleanField(_("provides auto insurance"), default=False)
     provides_travel = models.BooleanField(_("provides travel insurance"), default=False)
+    is_active = models.BooleanField(_("is active"), default=True)
 
     def __str__(self):
         return self.name
