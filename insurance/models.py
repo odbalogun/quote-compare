@@ -46,10 +46,11 @@ class InsuranceProvider(models.Model):
 
     Attributes:
         name (str): The name of the insurance provider.
-        interface (str): The interface used by the insurance provider.
+        interface (str): The name mapped to the Travel Provider interface.
         provides_health (bool): Indicates if the provider offers health insurance.
         provides_auto (bool): Indicates if the provider offers auto insurance.
         provides_travel (bool): Indicates if the provider offers travel insurance.
+        is_active (bool): Indicates if the provider is active and can be used
     """
     name = models.CharField(_("name"), max_length=255, null=False, blank=False)
     interface = models.CharField(_("interface"), max_length=255, null=False, blank=False)
