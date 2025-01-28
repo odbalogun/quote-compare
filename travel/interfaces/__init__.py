@@ -1,5 +1,5 @@
 from .demo import DemoTravelInsurance
 
-TRAVEL_PROVIDERS = {
+TRAVEL_PROVIDER_INTERFACES = {
     'demo': DemoTravelInsurance()
 }
