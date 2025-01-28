@@ -1,25 +1,6 @@
-from abc import ABC, abstractmethod
+from .base import TravelProviderInterface
 from unittest.mock import Mock
 import requests
-
-class TravelProviderInterface(ABC):
-    
-    @property
-    @abstractmethod
-    def base_url(self):
-        pass
-
-    @abstractmethod
-    def authenticate(self):
-        pass
-
-    @abstractmethod
-    def fetch_quote(self, data):
-        pass
-
-    @abstractmethod
-    def purchase_policy(self, data):
-        pass
 
 class DemoTravelInsurance(TravelProviderInterface):
     @property
@@ -48,7 +29,3 @@ class DemoTravelInsurance(TravelProviderInterface):
             "coverage": "Standard"
         }
         return mock_response.json()
-
-TRAVEL_PROVIDERS = {
-    'demo': DemoTravelInsurance()
-}
