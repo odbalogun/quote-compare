@@ -1,5 +1,5 @@
 from django.db import models
-from insurance.models import InsuranceModel
+from insurance.models import InsuranceModel, InsuranceProvider
 from django.utils.translation import gettext_lazy as _
 from core.models import Country
 
@@ -19,6 +19,10 @@ class TravelInsurance(InsuranceModel):
         passport_image_path (CharField): Path to the image of the passport.
         destination_country (ForeignKey): Destination country for the travel insurance.
         status (CharField): Status of the insurance (Quote, Purchased, Expired).
+        policy_number (CharField): Policy number of the insurance.
+        premium_amount (DecimalField): Premium amount of the insurance.
+        total_amount (DecimalField): Total amount of the insurance including fees.
+        insurance_provider (ForeignKey): Reference to the insurance provider.
 
     Status:
         QUOTE: Insurance quote.
@@ -34,6 +38,10 @@ class TravelInsurance(InsuranceModel):
     end_date = models.DateField(_('end date'), null=False, blank=False)
     passport_image_path = models.CharField(_('passport image path'), max_length=255, null=True, blank=True)
     destination_country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
+    policy_number = models.CharField(_('policy number'), max_length=100, null=True, blank=True)
+    premium_amount = models.DecimalField(_('premium amount'), max_digits=10, decimal_places=2, null=True, blank=True)
+    total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, null=True, blank=True)
+    insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
 
     class Status(models.TextChoices):
         QUOTE = 'quote', _('Quote')
