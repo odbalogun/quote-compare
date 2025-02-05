@@ -4,8 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .interfaces import TRAVEL_PROVIDER_INTERFACES
 from .serializers import TravelQuoteSerializer
-from .models import TravelInsurance
 from insurance.models import InsuranceProvider
+import logging
+
+logger = logging.getLogger('backend')
 
 # Create your views here.
 class GetTravelInsuranceQuotesView(APIView):
@@ -27,9 +29,8 @@ class GetTravelInsuranceQuotesView(APIView):
                         api_response = interface.fetch_quote(validated_data)
                         response["quotes"].append(api_response)
                     except Exception as e:
-                        # TODO log exception
-                        pass
-
+                        logger.error(f"Error in GetTravelInsuranceQuotesView: {e}")
+                        return Response({"error": "An error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(response, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
