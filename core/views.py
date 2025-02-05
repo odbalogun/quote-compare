@@ -2,10 +2,14 @@ from core.permissions import IsOwnProfile
 from core.models import User
 from rest_framework import generics
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from .serializers import RegisterUserSerializer, FetchAllUserFieldsSerializer, EditUserProfileSerializer
+from .serializers import RegisterUserSerializer, FetchAllUserFieldsSerializer, EditUserProfileSerializer, CountrySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from core.models import Country
 
+class CountryListView(generics.ListAPIView):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+    permission_classes = [AllowAny]
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()

@@ -1,4 +1,4 @@
-from core.models import User
+from core.models import User, Country
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -42,3 +42,9 @@ class EditUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "middle_name", "last_name", "date_of_birth", "nationality"]
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ['id', 'name', 'nationality']
