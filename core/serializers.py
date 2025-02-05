@@ -47,4 +47,4 @@ class EditUserProfileSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['id', 'name', 'nationality']
+        fields = ['id', 'name', 'code', 'nationality']
