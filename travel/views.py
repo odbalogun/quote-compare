@@ -16,7 +16,7 @@ class GetTravelInsuranceQuotesView(APIView):
         if serializer.is_valid():
             validated_data = serializer.validated_data
             # Save the validated data to the database
-            travel_insurance = TravelInsurance.objects.create(**validated_data)
+            travel_insurance = serializer.save(owner=request.user)
             response = {"quote_id": travel_insurance.id, "quotes": []}
 
             providers = InsuranceProvider.objects.filter(is_active=True, provides_travel=True)

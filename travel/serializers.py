@@ -15,6 +15,14 @@ class TravelQuoteSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'destination_country': {'required': True}
         }
+
+    def validate(self, data):
+        """
+        Check that the start date is before the end date.
+        """
+        if data['start_date'] >= data['end_date']:
+            raise serializers.ValidationError({"end_date": "End date must be after start date."})
+        return data
     
     def validate_start_date(self, value):
         if value <= date.today():
@@ -24,8 +32,6 @@ class TravelQuoteSerializer(serializers.ModelSerializer):
     def validate_end_date(self, value):
         if value <= date.today():
             raise serializers.ValidationError("End date must be in the future.")
-        if value >= value:
-            raise serializers.ValidationError("End date must be after start date.")
         return value
 
     def validate_passport_no(self, value):
@@ -38,6 +44,7 @@ class TravelQuoteSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         request = self.context.get('request')
-        if request and hasattr(request, 'user'):
-            validated_data['owner'] = request.user
+        if 'owner' not in validated_data:
+            if request and hasattr(request, 'user'):
+                validated_data['owner'] = request.user
         return super().create(validated_data)
