@@ -26,11 +26,11 @@ class FetchAllUsersView(generics.ListAPIView):
     serializer_class = FetchAllUserFieldsSerializer
     permission_classes = [AllowAny]
 
-class RequestPasswordReset(APIView):
-    permission_classes = [AllowAny]
+# class RequestPasswordReset(APIView):
+#     permission_classes = [AllowAny]
 
-    def post(self, request):
-        """
-        Logs a password reset request
-        """
-        pass
+#     def post(self, request):
+#         """
+#         Logs a password reset request
+#         """
+#         pass
