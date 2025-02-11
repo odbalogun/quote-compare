@@ -45,12 +45,15 @@ class TravelInsurance(InsuranceModel):
 
     class Status(models.TextChoices):
         QUOTE = 'quote', _('Quote')
+        CONFIRMED = 'confirmed', _('Confirmed')
         PURCHASED = 'purchased', _('Purchased')
+        CANCELLED_BEFORE_PURCHASE = 'cancelled before purchase', _('Cancelled Before Purchase')
+        CANCELLED_BEFORE_RENEWAL = 'cancelled before renewal', _('Cancelled Before Renewal')
         EXPIRED = 'expired', _('Expired')
 
     status = models.CharField(
         _('status'),
-        max_length=20,
+        max_length=50,
         choices=Status.choices,
         default=Status.QUOTE,
     )
