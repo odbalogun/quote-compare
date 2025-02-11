@@ -1,14 +1,19 @@
 from decimal import Decimal
+from core.constants import MAX_SERVICE_FEE, VAT_TAX
 
 
-def calculate_service_fee(total_amount: Decimal):
+def calculate_value_added_tax(amount: Decimal):
+    return amount * (VAT_TAX / 100)
+
+
+def calculate_service_fee(amount: Decimal):
     """
     Calculate the service fee based on the total amount.
 
     Args:
-        total_amount (Decimal): Total amount of the insurance.
+        amount (Decimal): Total amount of the insurance.
 
     Returns:
         Decimal: Service fee amount.
     """
-    return min(total_amount * Decimal('0.1'), 2000)
+    return min(amount * Decimal("0.1"), MAX_SERVICE_FEE)

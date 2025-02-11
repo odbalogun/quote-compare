@@ -4,7 +4,9 @@ from rest_framework.test import APITestCase
 from core.models import User, Country
 from insurance.models import InsuranceProvider
 from travel.models import TravelInsurance
+from core.utils import calculate_service_fee, calculate_value_added_tax
 import uuid
+import decimal
 
 
 class ConfirmTravelInsuranceViewTests(APITestCase):
@@ -79,9 +81,11 @@ class ConfirmTravelInsuranceViewTests(APITestCase):
             "quote_id": self.quote.id,
             "provider_id": self.provider.id,
         }
+        total_fee = data['premium_amount'] + calculate_value_added_tax(data['premium_amount']) + calculate_service_fee(data['premium_amount'])
         response = self.client.post(self.url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], str(self.quote.id))
+        self.assertEqual(decimal.Decimal(response.data['total_amount']), decimal.Decimal(total_fee))
         self.assertEqual(response.data["status"], TravelInsurance.Status.CONFIRMED)
 
 
