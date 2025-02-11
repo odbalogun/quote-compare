@@ -57,3 +57,12 @@ class TravelQuoteSerializerTests(TestCase):
         serializer = TravelQuoteSerializer(data=data)
         self.assertFalse(serializer.is_valid())
         self.assertIn('end_date', serializer.errors)
+
+    def test_end_date_before_start_date(self):
+        data = self.data.copy()
+        data['start_date'] = '2123-12-31'
+        data['end_date'] = '2123-12-01'
+        
+        serializer = TravelQuoteSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertIn('end_date', serializer.errors)
