@@ -40,6 +40,8 @@ class TravelInsurance(InsuranceModel):
     destination_country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
     policy_number = models.CharField(_('policy number'), max_length=100, null=True, blank=True)
     premium_amount = models.DecimalField(_('premium amount'), max_digits=10, decimal_places=2, null=True, blank=True)
+    service_fee = models.DecimalField(_('service fee'), max_digits=10, decimal_places=2, null=True, blank=True)
+    tax = models.DecimalField(_('value added tax'), max_digits=10, decimal_places=2, null=True, blank=True)
     total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, null=True, blank=True)
     insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
 
