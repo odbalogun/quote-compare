@@ -2,6 +2,11 @@ from rest_framework import serializers
 from datetime import date
 from .models import TravelInsurance
 
+class TravelInsuranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TravelInsurance
+        fields = '__all__'
+
 class TravelQuoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = TravelInsurance
