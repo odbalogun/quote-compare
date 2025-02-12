@@ -33,13 +33,13 @@ class GetTravelInsuranceQuotesView(APIView):
                         response["quotes"].append(api_response)
                     except (ConnectionError, TimeoutError) as e:
                         logger.error(f"Network error in GetTravelInsuranceQuotesView: {e}")
-                        return Response({"error": "Network error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                        continue
                     except ValueError as e:
                         logger.error(f"Value error in GetTravelInsuranceQuotesView: {e}")
-                        return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
+                        continue
                     except Exception as e:
                         logger.error(f"Unexpected error in GetTravelInsuranceQuotesView: {e}")
-                        return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                        continue
             return Response(response, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -44,11 +44,13 @@ class TravelInsurance(InsuranceModel):
     tax = models.DecimalField(_('value added tax'), max_digits=10, decimal_places=2, null=True, blank=True)
     total_amount = models.DecimalField(_('total amount'), max_digits=10, decimal_places=2, null=True, blank=True)
     insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
+    date_purchased = models.DateTimeField(_('date purchased'), null=True, blank=True)
 
     class Status(models.TextChoices):
         QUOTE = 'quote', _('Quote')
         CONFIRMED = 'confirmed', _('Confirmed')
-        PURCHASED = 'purchased', _('Purchased')
+        PAID = 'paid', _('Paid')
+        POLICY_PURCHASED = 'policy purchased', _('Policy Purchased')
         CANCELLED_BEFORE_PURCHASE = 'cancelled before purchase', _('Cancelled Before Purchase')
         CANCELLED_BEFORE_RENEWAL = 'cancelled before renewal', _('Cancelled Before Renewal')
         EXPIRED = 'expired', _('Expired')

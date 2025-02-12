@@ -4,6 +4,7 @@ from core.views import CreateUserView, FetchAllUsersView, EditUserProfileView, C
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import path
 from travel.views import GetTravelInsuranceQuotesView, ConfirmTravelInsuranceView
+from insurance.views import PurchasePolicyView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,4 +17,5 @@ urlpatterns = [
     path('api/travel/get-quotes/', GetTravelInsuranceQuotesView.as_view(), name='get-travel-insurance-quotes'),
     path('api/travel/confirm-quote/', ConfirmTravelInsuranceView.as_view(), name='confirm-travel-insurance'),
     path('api/countries/', CountryListView.as_view(), name='country-list'),
+    path('api/insurance/purchase/', PurchasePolicyView.as_view(), name='purchase-policy'),
 ]

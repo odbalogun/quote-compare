@@ -2,6 +2,8 @@ from django.db import models
 from core.base_models import BaseModel
 from core.models import User
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class InsuranceModel(BaseModel):
@@ -61,3 +63,39 @@ class InsuranceProvider(models.Model):
 
     def __str__(self):
         return self.name
+
+class PolicyPurchaseLog(models.Model):
+    """
+    Model to log the results of policy purchases and renewals.
+
+    Attributes:
+        user (ForeignKey): Reference to the user who made the purchase or renewal.
+        insurance_provider (ForeignKey): Reference to the insurance provider.
+        content_type (ForeignKey): Reference to the content type of the policy.
+        object_id (PositiveIntegerField): ID of the policy object.
+        policy (GenericForeignKey): Generic foreign key to the policy.
+        action (CharField): The action performed (purchase or renewal).
+        status (CharField): The status of the action (success or failure).
+        response (TextField): Response from the insurance provider.
+        timestamp (DateTimeField): The timestamp when the action was performed.
+    """
+    class Action(models.TextChoices):
+        PURCHASE = 'purchase', _('Purchase')
+        RENEWAL = 'renewal', _('Renewal')
+
+    class Status(models.TextChoices):
+        SUCCESS = 'success', _('Success')
+        FAILURE = 'failure', _('Failure')
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='policy_logs')
+    insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.CASCADE, related_name='policy_logs')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.UUIDField()
+    policy = GenericForeignKey('content_type', 'object_id')
+    action = models.CharField(_('action'), max_length=20, choices=Action.choices)
+    status = models.CharField(_('status'), max_length=20, choices=Status.choices)
+    response = models.TextField(_('message'), null=True, blank=True)
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.action} - {self.status} - {self.timestamp}"
