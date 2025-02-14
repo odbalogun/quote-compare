@@ -33,6 +33,7 @@ class TravelInsurance(InsuranceModel):
     nok_full_name = models.CharField(_('next of kin (full name)'), max_length=300, null=False, blank=False)
     nok_address = models.TextField(_('next of kin address'), null=False, blank=False)
     nok_relationship = models.CharField(_('next of kin relationship'), max_length=100, null=False, blank=False)
+    nok_phone_number = models.CharField(_('next of kin phone number'), max_length=30, null=True, blank=False)
     pre_existing_medical_condition = models.BooleanField(_('pre-existing medical condition'), default=False)
     passport_no = models.CharField(_('passport number'), max_length=50, null=False, blank=False)
     start_date = models.DateField(_('start date'), null=False, blank=False)
