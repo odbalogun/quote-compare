@@ -31,6 +31,7 @@ class GetTravelInsuranceQuotesView(APIView):
                     try:
                         api_response = interface.fetch_quote(validated_data)
                         response["quotes"].append(api_response)
+                        # TODO add a QuoteLog and log all quote responses so we can track issues with providers
                     except (ConnectionError, TimeoutError) as e:
                         logger.error(f"Network error in GetTravelInsuranceQuotesView: {e}")
                         continue

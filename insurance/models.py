@@ -22,6 +22,7 @@ class InsuranceModel(BaseModel):
         city (CharField): The city of the insurance holder.
         state (CharField): The state of the insurance holder.
         owner (ForeignKey): A foreign key reference to the User model, representing the owner of the insurance.
+        last_payment_made_at (DateTimeField): Datetime of last successful payment via the processor
         
     Meta:
         abstract (bool): Indicates that this model is abstract and should not be used to create any database table.
@@ -37,6 +38,7 @@ class InsuranceModel(BaseModel):
     city = models.CharField(_('city'), max_length=150, null=False, blank=False)
     state = models.CharField(_('state'), max_length=150, null=False, blank=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_payment_made_at = models.DateTimeField(_('last payment date'), null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -95,6 +97,42 @@ class PolicyPurchaseLog(models.Model):
     action = models.CharField(_('action'), max_length=20, choices=Action.choices)
     status = models.CharField(_('status'), max_length=20, choices=Status.choices)
     response = models.TextField(_('message'), null=True, blank=True)
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.action} - {self.status} - {self.timestamp}"
+
+
+class PaymentAttemptLog(models.Model):
+    """
+    Model to log the results of payment attempts.
+
+    Attributes:
+        user (ForeignKey): Reference to the user who made the payment attempt.
+        insurance_provider (ForeignKey): Reference to the insurance provider.
+        content_type (ForeignKey): Reference to the content type of the policy.
+        object_id (PositiveIntegerField): ID of the policy object.
+        policy (GenericForeignKey): Generic foreign key to the policy.
+        action (CharField): The action performed (payment attempt).
+        status (CharField): The status of the action (success or failure).
+        response (TextField): Response from the payment gateway.
+        timestamp (DateTimeField): The timestamp when the action was performed.
+    """
+    class Action(models.TextChoices):
+        PAYMENT_ATTEMPT = 'payment_attempt', _('Payment Attempt')
+
+    class Status(models.TextChoices):
+        SUCCESS = 'success', _('Success')
+        FAILURE = 'failure', _('Failure')
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payment_logs')
+    insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.CASCADE, related_name='payment_logs')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.UUIDField()
+    policy = GenericForeignKey('content_type', 'object_id')
+    action = models.CharField(_('action'), max_length=20, choices=Action.choices, default=Action.PAYMENT_ATTEMPT)
+    status = models.CharField(_('status'), max_length=20, choices=Status.choices)
+    response = models.TextField(_('response'), null=True, blank=True)
     timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
 
     def __str__(self):

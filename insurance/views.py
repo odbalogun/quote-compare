@@ -1,7 +1,7 @@
 from rest_framework import generics
 from travel.models import TravelInsurance
 from travel.interfaces import TRAVEL_PROVIDER_INTERFACES
-from insurance.models import PolicyPurchaseLog
+from insurance.models import PolicyPurchaseLog, PaymentAttemptLog
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.contenttypes.models import ContentType
@@ -10,7 +10,39 @@ from django.utils import timezone
 
 logger = logging.getLogger('backend')
 
-# Create your views here.
+class LogPaymentProcessorResponse(generics.CreateAPIView):
+    def post(self, request):
+        """
+        Log the response from the payment processor
+        """
+        data = request.data
+        quote = TravelInsurance.objects.filter(pk=data.get('quote_id')).first()
+        if not quote:
+            return Response({"error": "Invalid quote ID"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        content_type = None
+        if data.get('insurance_type') == 'travel':
+            content_type = ContentType.objects.get_for_model(TravelInsurance)  
+
+        payment_log = PaymentAttemptLog.objects.create(
+            user=request.user,
+            insurance_provider=quote.insurance_provider,
+            content_type=content_type,
+            object_id=quote.id,
+            action=PaymentAttemptLog.Action.PAYMENT_ATTEMPT,
+            status=PaymentAttemptLog.Status.SUCCESS if data.get('status') == 'success' else PaymentAttemptLog.Status.FAILURE,
+            response=str(data)
+        )
+        payment_log.save()
+
+        if payment_log.status == PaymentAttemptLog.Status.SUCCESS:
+            quote.status = TravelInsurance.Status.PAID
+            quote.last_payment_made_at = timezone.now()
+            quote.save()
+
+        # TODO send email receipt
+        return Response({"message": "Payment response logged successfully"}, status=status.HTTP_200_OK)
+
 class PurchasePolicyView(generics.CreateAPIView):
     def post(self, request):
         """

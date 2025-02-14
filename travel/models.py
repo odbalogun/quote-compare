@@ -23,6 +23,7 @@ class TravelInsurance(InsuranceModel):
         premium_amount (DecimalField): Premium amount of the insurance.
         total_amount (DecimalField): Total amount of the insurance including fees.
         insurance_provider (ForeignKey): Reference to the insurance provider.
+        date_purchased (DateTimeField): Datetime policy was purchased from provider
 
     Status:
         QUOTE: Insurance quote.
