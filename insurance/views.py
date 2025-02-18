@@ -1,6 +1,6 @@
 from rest_framework import generics
 from travel.models import TravelInsurance
-from travel.interfaces import TRAVEL_PROVIDER_INTERFACES
+from core.interfaces import TRAVEL_PROVIDER_INTERFACES
 from insurance.models import PolicyPurchaseLog, PaymentAttemptLog
 from rest_framework.response import Response
 from rest_framework import status
