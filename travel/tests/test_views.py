@@ -5,6 +5,7 @@ from core.models import User, Country
 from insurance.models import InsuranceProvider
 from travel.models import TravelInsurance
 from core.utils import calculate_service_fee, calculate_value_added_tax
+from core.constants import PolicyStatus
 import uuid
 import decimal
 
@@ -86,7 +87,7 @@ class ConfirmTravelInsuranceViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], str(self.quote.id))
         self.assertEqual(decimal.Decimal(response.data['total_amount']), decimal.Decimal(total_fee))
-        self.assertEqual(response.data["status"], TravelInsurance.Status.CONFIRMED)
+        self.assertEqual(response.data["status"], PolicyStatus.CONFIRMED)
 
 
 class GetTravelInsuranceQuotesViewTests(APITestCase):
@@ -121,6 +122,7 @@ class GetTravelInsuranceQuotesViewTests(APITestCase):
             "nok_full_name": "Next of Kin",
             "nok_address": "456 Kin St",
             "nok_relationship": "Brother",
+            "nok_phone_number": "111234787463",
             "pre_existing_medical_condition": False,
             "passport_no": "A1234567",
             "start_date": "2123-12-01",

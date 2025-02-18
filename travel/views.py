@@ -7,7 +7,7 @@ from .serializers import TravelQuoteSerializer, TravelInsuranceSerializer
 from .models import TravelInsurance
 from insurance.models import InsuranceProvider
 from core.utils import calculate_service_fee, calculate_value_added_tax
-from core.constants import MAX_SERVICE_FEE
+from core.constants import PolicyStatus
 import logging
 
 logger = logging.getLogger('backend')
@@ -64,7 +64,7 @@ class ConfirmTravelInsuranceView(APIView):
             return Response({"error": "Invalid quote provided"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            quote.status = TravelInsurance.Status.CONFIRMED
+            quote.status = PolicyStatus.CONFIRMED
             quote.premium_amount = premium_amount
             quote.service_fee = calculate_service_fee(quote.premium_amount)
             quote.tax = calculate_value_added_tax(quote.premium_amount)

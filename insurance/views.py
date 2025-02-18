@@ -5,6 +5,7 @@ from insurance.models import PolicyPurchaseLog, PaymentAttemptLog
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.contenttypes.models import ContentType
+from core.constants import PolicyStatus
 import logging
 from django.utils import timezone
 
@@ -36,7 +37,7 @@ class LogPaymentProcessorResponse(generics.CreateAPIView):
         payment_log.save()
 
         if payment_log.status == PaymentAttemptLog.Status.SUCCESS:
-            quote.status = TravelInsurance.Status.PAID
+            quote.status = PolicyStatus.PAID
             quote.last_payment_made_at = timezone.now()
             quote.save()
 
@@ -71,7 +72,7 @@ class PurchasePolicyView(generics.CreateAPIView):
                     policy_log.save()
 
                     # update quote status
-                    quote.status = TravelInsurance.Status.POLICY_PURCHASED
+                    quote.status = PolicyStatus.POLICY_PURCHASED
                     quote.date_purchased = timezone.now()
                     quote.save()
 

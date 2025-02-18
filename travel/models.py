@@ -2,6 +2,7 @@ from django.db import models
 from insurance.models import InsuranceModel, InsuranceProvider
 from django.utils.translation import gettext_lazy as _
 from core.models import Country
+from core.constants import PolicyStatus
 
 # Create your models here.
 class TravelInsurance(InsuranceModel):
@@ -24,11 +25,6 @@ class TravelInsurance(InsuranceModel):
         total_amount (DecimalField): Total amount of the insurance including fees.
         insurance_provider (ForeignKey): Reference to the insurance provider.
         date_purchased (DateTimeField): Datetime policy was purchased from provider
-
-    Status:
-        QUOTE: Insurance quote.
-        PURCHASED: Insurance purchased.
-        EXPIRED: Insurance expired.
     """
     nok_full_name = models.CharField(_('next of kin (full name)'), max_length=300, null=False, blank=False)
     nok_address = models.TextField(_('next of kin address'), null=False, blank=False)
@@ -48,18 +44,9 @@ class TravelInsurance(InsuranceModel):
     insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.SET_NULL, null=True, blank=True, related_name='travel_insurances')
     date_purchased = models.DateTimeField(_('date purchased'), null=True, blank=True)
 
-    class Status(models.TextChoices):
-        QUOTE = 'quote', _('Quote')
-        CONFIRMED = 'confirmed', _('Confirmed')
-        PAID = 'paid', _('Paid')
-        POLICY_PURCHASED = 'policy purchased', _('Policy Purchased')
-        CANCELLED_BEFORE_PURCHASE = 'cancelled before purchase', _('Cancelled Before Purchase')
-        CANCELLED_BEFORE_RENEWAL = 'cancelled before renewal', _('Cancelled Before Renewal')
-        EXPIRED = 'expired', _('Expired')
-
     status = models.CharField(
         _('status'),
         max_length=50,
-        choices=Status.choices,
-        default=Status.QUOTE,
+        choices=PolicyStatus.choices,
+        default=PolicyStatus.QUOTE,
     )

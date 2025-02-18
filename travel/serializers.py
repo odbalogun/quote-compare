@@ -13,12 +13,13 @@ class TravelQuoteSerializer(serializers.ModelSerializer):
         fields = [
             'title', 'first_name', 'last_name', 'email', 'phone_number', 'gender',
             'date_of_birth', 'address', 'city', 'state',
-            'nok_full_name', 'nok_address', 'nok_relationship',
+            'nok_full_name', 'nok_address', 'nok_relationship', 'nok_phone_number',
             'pre_existing_medical_condition', 'passport_no',
             'start_date', 'end_date', 'passport_image_path', 'destination_country'
         ]
         extra_kwargs = {
-            'destination_country': {'required': True}
+            'destination_country': {'required': True},
+            'nok_phone_number': {'required': True},
         }
 
     def validate(self, data):

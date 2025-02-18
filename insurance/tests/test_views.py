@@ -1,8 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.contenttypes.models import ContentType
 from core.models import User, Country
+from core.constants import PolicyStatus
 from insurance.models import InsuranceProvider, PolicyPurchaseLog, PaymentAttemptLog
 from travel.models import TravelInsurance
 from unittest.mock import Mock, patch
@@ -59,7 +59,7 @@ class LogPaymentProcessorResponseTests(APITestCase):
 
         # Check that the quote status was updated
         self.quote.refresh_from_db()
-        self.assertEqual(self.quote.status, TravelInsurance.Status.PAID)
+        self.assertEqual(self.quote.status, PolicyStatus.PAID)
         self.assertIsNotNone(self.quote.last_payment_made_at)
 
     def test_log_payment_processor_response_failure(self):
@@ -79,7 +79,7 @@ class LogPaymentProcessorResponseTests(APITestCase):
 
         # Check that the quote status was not updated to PAID
         self.quote.refresh_from_db()
-        self.assertNotEqual(self.quote.status, TravelInsurance.Status.PAID)
+        self.assertNotEqual(self.quote.status, PolicyStatus.PAID)
 
     def test_log_payment_processor_response_invalid_quote_id(self):
         url = reverse('log-payment-response')
@@ -149,7 +149,7 @@ class PurchasePolicyViewTests(APITestCase):
 
         # Check that the quote status was updated
         self.quote.refresh_from_db()
-        self.assertEqual(self.quote.status, TravelInsurance.Status.POLICY_PURCHASED)
+        self.assertEqual(self.quote.status, PolicyStatus.POLICY_PURCHASED)
         self.assertIsNotNone(self.quote.date_purchased)
 
     @patch('insurance.views.TRAVEL_PROVIDER_INTERFACES')

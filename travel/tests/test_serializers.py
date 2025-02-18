@@ -22,6 +22,7 @@ class TravelQuoteSerializerTests(TestCase):
             "nok_full_name": "Next of Kin",
             "nok_address": "456 Kin St",
             "nok_relationship": "Parent",
+            "nok_phone_number": "111234787463",
             "pre_existing_medical_condition": False,
             "passport_no": "A1234567",
             "start_date": "2123-12-01",
