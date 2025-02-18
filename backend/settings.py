@@ -110,6 +110,7 @@ INSTALLED_APPS = [
     "core",
     "insurance",
     "travel",
+    "life",
 ]
 
 MIDDLEWARE = [
