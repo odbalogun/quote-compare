@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class TravelProviderInterface(ABC):
+class ProviderInterface(ABC):
     
     @property
     @abstractmethod

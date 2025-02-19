@@ -1,5 +1,9 @@
-from .demo import DemoTravelInsurance
+from .demo import DemoInsurance
 
 TRAVEL_PROVIDER_INTERFACES = {
-    'demo': DemoTravelInsurance()
+    'demo': DemoInsurance()
+}
+
+LIFE_PROVIDER_INTERFACES = {
+    'demo': DemoInsurance()
 }

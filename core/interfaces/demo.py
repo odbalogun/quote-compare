@@ -1,8 +1,8 @@
-from .base import TravelProviderInterface
+from .base import ProviderInterface
 from unittest.mock import Mock
 import requests
 
-class DemoTravelInsurance(TravelProviderInterface):
+class DemoInsurance(ProviderInterface):
     @property
     def base_url(self):
         return "http://test.com"
