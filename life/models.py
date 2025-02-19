@@ -17,11 +17,11 @@ class LifeInsurance(InsuranceModel):
     insurance_provider = models.ForeignKey(InsuranceProvider, on_delete=models.SET_NULL, null=True, blank=True, related_name='life_insurances')
     date_purchased = models.DateTimeField(_('date purchased'), null=True, blank=True)
     _metadata = models.JSONField(_('meta data'), null=True, blank=True)
+    # benefit_details
+    # payment_plan
     policy_starts_at = models.DateTimeField(_('insurance start date'), null=True, blank=True)
     policy_expires_at = models.DateTimeField(_('insurance expires at'), null=True, blank=True)
     next_renewal_attempt_at = models.DateTimeField(_('renewal attempt at'), null=True, blank=True)
-    # benefit_details
-    # payment_plan
 
     @property
     def metadata(self):

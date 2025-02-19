@@ -4,6 +4,7 @@ from core.views import CreateUserView, FetchAllUsersView, EditUserProfileView, C
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import path
 from travel.views import GetTravelInsuranceQuotesView, ConfirmTravelInsuranceView
+from life.views import GetLifeInsuranceQuoteView
 from insurance.views import PurchasePolicyView, LogPaymentProcessorResponse
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('api/countries/', CountryListView.as_view(), name='country-list'),
     path('api/insurance/purchase/', PurchasePolicyView.as_view(), name='purchase-policy'),
     path('api/insurance/paymentlog/', LogPaymentProcessorResponse.as_view(), name='log-payment-response'),
+    path('api/life/quotes/', GetLifeInsuranceQuoteView.as_view(), name='get-life-insurance-quotes'),
 ]
