@@ -1,7 +1,6 @@
 
 from django.test import TestCase
-from core.models import Country
-from core.models import User
+from core.models import User, Country
 from travel.serializers import TravelQuoteSerializer
 
 class TravelQuoteSerializerTests(TestCase):

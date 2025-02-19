@@ -1,8 +1,7 @@
 from django.test import TestCase
-from core.models import Country
+from core.models import User, Country
 from insurance.models import InsuranceProvider
 from travel.models import TravelInsurance
-from core.models import User
 
 class TravelInsuranceModelTests(TestCase):
     def setUp(self):
