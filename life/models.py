@@ -1,6 +1,7 @@
 from django.db import models
 from insurance.models import InsuranceModel, InsuranceProvider
 from django.utils.translation import gettext_lazy as _
+from core.constants import PolicyStatus
 
 # Create your models here.
 class LifeInsurance(InsuranceModel):
@@ -22,6 +23,13 @@ class LifeInsurance(InsuranceModel):
     policy_starts_at = models.DateTimeField(_('insurance start date'), null=True, blank=True)
     policy_expires_at = models.DateTimeField(_('insurance expires at'), null=True, blank=True)
     next_renewal_attempt_at = models.DateTimeField(_('renewal attempt at'), null=True, blank=True)
+
+    status = models.CharField(
+        _('status'),
+        max_length=50,
+        choices=PolicyStatus.choices,
+        default=PolicyStatus.QUOTE,
+    )
 
     @property
     def metadata(self):
