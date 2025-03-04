@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from .serializers import RegisterUserSerializer, FetchAllUserFieldsSerializer, EditUserProfileSerializer, CountrySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from core.models import Country
+from rest_framework import pagination
 
 class CountryListView(generics.ListAPIView):
     queryset = Country.objects.all()
@@ -25,6 +26,8 @@ class FetchAllUsersView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = FetchAllUserFieldsSerializer
     permission_classes = [AllowAny]
+    pagination_class = pagination.PageNumberPagination
+    pagination_class.page_size = 20
 
 # class RequestPasswordReset(APIView):
 #     permission_classes = [AllowAny]
